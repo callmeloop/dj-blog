@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
-from .models import User, Post
+from django.views.generic.edit import UpdateView
+from .models import Post
+from django.contrib.auth.models import User
 from .forms import PostForm
 from django.http import HttpResponse
+from django.urls import reverse_lazy
 # Create your views here.
 
 def home(request):
@@ -22,11 +25,19 @@ class AddPostView(ListView):
             title = form.cleaned_data['title']
             content = form.cleaned_data['content']
 
-            user_obj = User.objects.get(user_name=userName)
+            user_obj = User.objects.get(username=userName)
             add_post = Post.objects.create(user=user_obj, title=title, content=content)
             add_post.save()
             form = PostForm()
             return render(request,'posts/index.html',{'form':form})
+
+
+class UpdatePostView(UpdateView):
+    model = Post
+    fields = ['content']
+    template_name = 'posts/update_post.html'
+    success_url = reverse_lazy('posts:see_posts')
+   
 
 
 class SeePostView(AddPostView):
