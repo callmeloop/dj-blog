@@ -8,8 +8,8 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy
 # Create your views here.
 
-def home(request):
-    return HttpResponse('<a href=add_post/>Add Post</a>')
+# def home(request):
+#     return render(request, 'posts/index.html')
 
 
 class AddPostView(ListView):
@@ -17,7 +17,7 @@ class AddPostView(ListView):
 
     def get(self, request):
         form = PostForm()
-        return render(request, 'posts/index.html', {'form':form})
+        return render(request, 'posts/add_post.html', {'form':form})
     def post(self, request):
         form = PostForm(request.POST)
         if form.is_valid():
@@ -29,18 +29,18 @@ class AddPostView(ListView):
             add_post = Post.objects.create(user=user_obj, title=title, content=content)
             add_post.save()
             form = PostForm()
-            return render(request,'posts/index.html',{'form':form})
+            return render(request,'posts/add_post.html',{'form':form})
 
 
 class UpdatePostView(UpdateView):
     model = Post
     fields = ['content']
     template_name = 'posts/update_post.html'
-    success_url = reverse_lazy('posts:see_posts')
+    success_url = reverse_lazy('posts:all_posts')
    
 
 
-class SeePostView(AddPostView):
+class SeePostView(ListView):
     model = Post
 
     def get(self,request):
