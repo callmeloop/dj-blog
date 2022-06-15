@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, DeleteView
 from .models import Post
 from django.contrib.auth.models import User
 from .forms import PostForm
@@ -29,7 +29,7 @@ class AddPostView(ListView):
             add_post = Post.objects.create(user=user_obj, title=title, content=content)
             add_post.save()
             form = PostForm()
-            return render(request,'posts/add_post.html',{'form':form})
+            return render(request,'posts/all_posts.html',{'posts':Post.objects.all().order_by('-id')})
 
 
 class UpdatePostView(UpdateView):
@@ -46,3 +46,14 @@ class SeePostView(ListView):
     def get(self,request):
         all_post = self.model.objects.all().order_by('-id')
         return render(request, 'posts/all_posts.html', {'posts':all_post})
+
+
+
+class DeletePostView(DeleteView):
+    # specify the model you want to use
+    model = Post
+    template_name = 'posts/delete_post.html'
+    # can specify success url
+    # url to redirect after successfully
+    # deleting object
+    success_url = reverse_lazy('posts:all_posts')

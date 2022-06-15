@@ -1,0 +1,20 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'posts/css/bootstrap.css' %}">
+
+<!DOCTYPE html>
+<head>
+    <title>Index Page</title>
+</head>
+<body>
+    <h1>Upload your posts here.</h1>
+    <p><a href="{% url 'posts:all_posts' %}">See Posts</a></p>
+    <hr>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form.media}}
+            {{form.as_p}}
+            <input type="submit" value="Upload">
+        </form>
+</body>
+</html>

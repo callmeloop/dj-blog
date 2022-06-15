@@ -12,12 +12,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>All Posts</title>
+    <title>My Blog</title>
   </head>
   <body>
     <div class="container py-4">
       <header class="pb-3 mb-4 border-bottom">
-        <h1>All Posts</h1>
+        <h1>My Blog</h1>
       </header>
       <div class="p-5 mb-4 bg-light rounded-3">
         <h2>
@@ -34,7 +34,14 @@
             type="button"
             onclick="location.href='{% url 'posts:update_post' post.pk %}'"
           >
-            Update
+            Edit
+          </button>
+          <button
+            class="btn btn-danger btn-lg"
+            type="button"
+            onclick="location.href='{% url 'posts:delete_post' post.pk %}'"
+          >
+            Delete
           </button>
         </div>
       </div>
